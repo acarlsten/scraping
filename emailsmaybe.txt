@@ -1,0 +1,8 @@
+[
+  {
+    "field1": "E-post:",
+    "field2": "pieter.bevelander@mah.se"
+  }
+].se"
+  }
+]

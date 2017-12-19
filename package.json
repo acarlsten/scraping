@@ -1,0 +1,16 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json2csv": "^3.11.5",
+    "jsonexport": "^2.0.11",
+    "x-ray": "git+https://github.com/matthewmueller/x-ray.git"
+  }
+}
