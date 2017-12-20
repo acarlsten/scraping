@@ -1,34 +1,32 @@
 const fs = require('fs')
 const jsonexport = require('jsonexport')
 
-var osmosis = require('osmosis')
-
-var saveFile = (emails) => {
-  fs.writeFileSync('Test.json', JSON.stringify(emails))
+var mahScraper = (fakultet, name) => {
+  let savedData = []
+  osmosis
+    .get(`http://forskning.mah.se/org/fak/${fakultet}`)
+    .set([
+      osmosis
+        .find('#Toggle')
+        .find('b>a')
+        .set('name')
+        .follow('@href')
+        .find('.advanced-content')
+        .find('h2+table')
+        .contains('mah.se')
+        .set({email: 'td+'})
+        .data((data) => savedData.push(data))
+    ])
+    .done(() => {
+      fs.writeFileSync('fil.json', JSON.stringify(savedData, null, 4))
+      var reader = fs.createReadStream('fil.json')
+      var writer = fs.createWriteStream(`${name}.csv`)
+  
+      reader.pipe(jsonexport({rename: ['Namn', 'Epost']})).pipe(writer)
+    })
 }
 
-let savedData = []
-osmosis
-  .get('http://forskning.mah.se/org/fak/5')
-  .set([
-    osmosis
-      .find('#Toggle')
-      .find('b>a')
-      .set('name')
-      .follow('@href')
-      .find('.advanced-content')
-      .find('h2+table')
-      .contains('mah.se')
-      .set({email: 'td+'})
-      .data((data) => savedData.push(data))
-  ])
-  .done(() => {
-    fs.writeFileSync('fil.json', JSON.stringify(savedData, null, 4))
-    var reader = fs.createReadStream('fil.json')
-    var writer = fs.createWriteStream('out.csv')
- 
-    reader.pipe(jsonexport()).pipe(writer)
-  })
+mahScraper(2, 'Institutionen för konst, kultur och kommunikation (K3)')
 
 
 
