@@ -1,6 +1,8 @@
 const fs = require('fs')
 const jsonexport = require('jsonexport')
+var osmosis = require('osmosis')
 
+//MAH-institutioner: http://forskning.mah.se/organisation
 var mahScraper = (fakultet, name) => {
   let savedData = []
   osmosis
@@ -26,7 +28,45 @@ var mahScraper = (fakultet, name) => {
     })
 }
 
-mahScraper(2, 'Institutionen för konst, kultur och kommunikation (K3)')
+// helper function to parse spamspan which LU uses
+var emailParser = (file) => {
+  var emails = JSON.parse(fs.readFileSync(`${file}`))
+
+  emails.forEach((person) => {
+    var oldmail = person.email
+    var newmail = oldmail.replace(/ \[dot\] /g, '.').replace(/ \[at\] /g, '@')
+    person.email = newmail
+    return person
+  })
+
+  fs.writeFileSync(`${file}`, JSON.stringify(emails))
+}
+
+///LU-institutioner: https://www.lu.se/om-universitetet/ledning-och-organisation/institutioner
+var luScraper = (fakultet, name) => {
+  let savedData = []
+  osmosis
+    .get(`https://www.lu.se/lucat/group/${fakultet}`)
+    .set([
+      osmosis
+        .find('.lucat-user')
+        .set({
+          name: '.name > a',
+          email: '.spamspan'
+        })
+        .data((data) => savedData.push(data))
+    ])
+    .done(() => {
+      fs.writeFileSync('fil.json', JSON.stringify(savedData, null, 4))
+      emailParser('fil.json')
+      var reader = fs.createReadStream('fil.json')
+      var writer = fs.createWriteStream(`${name}.csv`)
+  
+      reader.pipe(jsonexport({rename: ['Namn', 'Epost']})).pipe(writer)
+    })
+}
+
+luScraper('v1000065', 'Institutionen för kommunikation och medier')
 
 
 
