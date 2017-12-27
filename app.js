@@ -253,15 +253,15 @@ var umuScraper = (fakultet, name) => {
     })
 }
 
-// mahScraper('5', 'Institutionen för globala politiska studier (GPS)')
-// luScraper('v1000693', 'Statsvetenskapliga institutionen')
-// luScraper('v1000692', 'Sociologiska institutionen')
-// uuScraper('HS13:1', 'Statsvetenskapliga institutionen')
-// uuScraper('HS11:1', 'Sociologiska institutionen')
-// uuScraper('HS3', 'Institutionen för freds- och konfliktforskning')
-// suSocScraper('Uppsala - Sociologiska institutionen') //Bara sociologiska
-// suStatsScraper('Uppsala - Statsvetenskapliga institutionen') //Bara stats
-// guSocScraper('Göteborg - Sociologiska institutionen')
-// guStatsScraper('Göteborg - Statsvetenskapliga institutionen')
-// umuScraper('soc', 'Sociologiska institutionen')
+mahScraper('5', 'Institutionen för globala politiska studier (GPS)')
+luScraper('v1000693', 'Statsvetenskapliga institutionen')
+luScraper('v1000692', 'Sociologiska institutionen')
+uuScraper('HS13:1', 'Statsvetenskapliga institutionen')
+uuScraper('HS11:1', 'Sociologiska institutionen')
+uuScraper('HS3', 'Institutionen för freds- och konfliktforskning')
+suSocScraper('Uppsala - Sociologiska institutionen') //Bara sociologiska
+suStatsScraper('Uppsala - Statsvetenskapliga institutionen') //Bara stats
+guSocScraper('Göteborg - Sociologiska institutionen')
+guStatsScraper('Göteborg - Statsvetenskapliga institutionen')
+umuScraper('soc', 'Sociologiska institutionen')
 umuScraper('pol', 'Statsvetenskapliga institutionen')
