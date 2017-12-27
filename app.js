@@ -24,7 +24,7 @@ var mahScraper = (fakultet, name) => {
         })
     ])
     .done(() => {
-      fs.writeFileSync(`${name}.json`, JSON.stringify(savedData, null, 4))
+      fs.writeFileSync(`Malmö-${name}.json`, JSON.stringify(savedData, null, 4))
       var reader = fs.createReadStream(`Malmö-${name}.json`)
       var writer = fs.createWriteStream(`Malmö-${name}.csv`)
   
@@ -41,7 +41,7 @@ var emailParser = (file, uni) => {
     if(uni === 'lu') {
       var newmail = oldmail.replace(/ \[dot\] /g, '.').replace(/ \[at\] /g, '@')
     } else if (uni === 'uu') {
-      var newmail = oldmail.replace(/ \[dot\] /g, '.').replace(/\[AT-tecken\]/g, '@')
+      newmail = oldmail.replace(/ \[dot\] /g, '.').replace(/\[AT-tecken\]/g, '@')
     }
     person.email = newmail
     return person
@@ -58,6 +58,7 @@ var luScraper = (fakultet, name) => {
     .set([
       osmosis
         .find('.lucat-user')
+        .contains('lu [dot] se')
         .set({
           name: '.name > a',
           title: '.roles',
@@ -69,8 +70,8 @@ var luScraper = (fakultet, name) => {
         })
     ])
     .done(() => {
-      fs.writeFileSync(`${name}.json`, JSON.stringify(savedData, null, 4))
-      emailParser(`${name}.json`, 'lu')
+      fs.writeFileSync(`Lund-${name}.json`, JSON.stringify(savedData, null, 4))
+      emailParser(`Lund-${name}.json`, 'lu')
       var reader = fs.createReadStream(`Lund-${name}.json`)
       var writer = fs.createWriteStream(`Lund-${name}.csv`)
   
@@ -98,8 +99,8 @@ var uuScraper = (fakultet, name) => {
         })
     ])
     .done(() => {
-      fs.writeFileSync(`${name}.json`, JSON.stringify(savedData, null, 4))
-      emailParser(`${name}.json`, 'uu')
+      fs.writeFileSync(`Uppsala-${name}.json`, JSON.stringify(savedData, null, 4))
+      emailParser(`Uppsala-${name}.json`, 'uu')
       var reader = fs.createReadStream(`Uppsala-${name}.json`)
       var writer = fs.createWriteStream(`Uppsala-${name}.csv`)
   
@@ -244,8 +245,8 @@ var umuScraper = (fakultet, name) => {
         })
     ])
     .done(() => {
-      fs.writeFileSync(`${name}.json`, JSON.stringify(savedData, null, 4))
-      emailParser(`${name}.json`, 'uu')
+      fs.writeFileSync(`Umeå-${name}.json`, JSON.stringify(savedData, null, 4))
+      emailParser(`Umeå-${name}.json`, 'uu')
       var reader = fs.createReadStream(`Umeå-${name}.json`)
       var writer = fs.createWriteStream(`Umeå-${name}.csv`)
   
@@ -259,8 +260,8 @@ luScraper('v1000692', 'Sociologiska institutionen')
 uuScraper('HS13:1', 'Statsvetenskapliga institutionen')
 uuScraper('HS11:1', 'Sociologiska institutionen')
 uuScraper('HS3', 'Institutionen för freds- och konfliktforskning')
-suSocScraper('Uppsala - Sociologiska institutionen') //Bara sociologiska
-suStatsScraper('Uppsala - Statsvetenskapliga institutionen') //Bara stats
+suSocScraper('Stockholm - Sociologiska institutionen') //Bara sociologiska
+suStatsScraper('Stockholm - Statsvetenskapliga institutionen') //Bara stats
 guSocScraper('Göteborg - Sociologiska institutionen')
 guStatsScraper('Göteborg - Statsvetenskapliga institutionen')
 umuScraper('soc', 'Sociologiska institutionen')
